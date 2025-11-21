@@ -17,7 +17,7 @@ type HoldID uuid.UUID
 type CustomerID uuid.UUID
 
 type Hold struct {
-	id         HoldID
+	Id         HoldID
 	quantity   int
 	customerID CustomerID
 	expiresAt  time.Time
@@ -31,7 +31,7 @@ func (h *Hold) isExpired(currentTime time.Time) bool {
 }
 
 type Event struct {
-	id       EventID
+	Id       EventID
 	title    string
 	capacity int
 	sold     int
@@ -58,7 +58,7 @@ func (e *Event) calculateActiveHolds(currentTime time.Time) int {
 func createNewHold(e *Event, customerID CustomerID, quantity int, holdDuration time.Duration, currentTime time.Time) (*Hold, error) {
 	holdID := HoldID(uuid.New())
 	hold := &Hold{
-		id:         holdID,
+		Id:         holdID,
 		quantity:   quantity,
 		customerID: customerID,
 		expiresAt:  currentTime.Add(holdDuration),
@@ -78,7 +78,7 @@ func (e *Event) requestHold(customerID CustomerID, quantity int, holdDuration ti
 		return nil, err
 	}
 
-	e.holds[hold.id] = hold
+	e.holds[hold.Id] = hold
 	return hold, nil
 }
 
@@ -110,7 +110,7 @@ func (e *Event) cancelHold(holdID HoldID, currentTime time.Time) error {
 func CreateNewEvent(title string, capacity int) *Event {
 	eventID := EventID(uuid.New())
 	return &Event{
-		id:       eventID,
+		Id:       eventID,
 		title:    title,
 		capacity: capacity,
 		sold:     0,
